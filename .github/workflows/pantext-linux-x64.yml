@@ -28,14 +28,6 @@ jobs:
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       shell: bash
       if: startsWith(github.ref, 'refs/tags/')
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.x
-      if: startsWith(github.ref, 'refs/tags/')
-    - name: Install AzureSignTool
-      run: dotnet tool install --global AzureSignTool
-      if: startsWith(github.ref, 'refs/tags/')
     - name: Build PanText
       run: |
         cp apps/pantext/config.json neutron/
@@ -50,6 +42,8 @@ jobs:
         CI: true
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET_PANTEXT }}
         REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
         REACT_APP_AMPLITUDE_API_KEY: ${{ secrets.REACT_APP_AMPLITUDE_API_KEY }}

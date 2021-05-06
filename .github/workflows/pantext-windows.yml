@@ -13,6 +13,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Get Neutron version
       run: echo NEUTRON_VERSION=$(cat neutron-version $1) >> $GITHUB_ENV
+      shell: bash
     - uses: actions/checkout@v2
       with:
         repository: 'webcatalog/neutron'
@@ -50,6 +51,8 @@ jobs:
         CI: true
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET_PANTEXT }}
         REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
         REACT_APP_AMPLITUDE_API_KEY: ${{ secrets.REACT_APP_AMPLITUDE_API_KEY }}

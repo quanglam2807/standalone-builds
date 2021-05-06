@@ -2,6 +2,7 @@
     "id": "pantext",
     "name": "PanText",
     "registered": false,
+    "standalone": true,
     "macAppStoreId": "1551183766",
     "opts": {
         "legacyUserData": true

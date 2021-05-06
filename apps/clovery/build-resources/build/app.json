@@ -3,6 +3,7 @@
     "name": "Clovery",
     "macAppStoreId": "1552618413",
     "registered": false,
+    "standalone": true,
     "opts": {
         "legacyUserData": true
     }

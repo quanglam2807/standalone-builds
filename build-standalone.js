@@ -161,6 +161,9 @@ const opts = {
         path: `/${configJson.internalId}`,
       },
     ],
+    mac: {
+      extendInfo: {},
+    },
     win: {
       // https://www.electron.build/configuration/win.html#how-do-delegate-code-signing
       sign: (configuration) => hsmCodeSignAsync(configuration.path),
