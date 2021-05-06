@@ -1,6 +1,7 @@
 {
     "id": "panmail",
     "name": "PanMail",
+    "hostname": "panmail.app",
     "macAppStoreId": "1551178702",
     "registered": false,
     "standalone": true,

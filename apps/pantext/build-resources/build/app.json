@@ -1,6 +1,7 @@
 {
     "id": "pantext",
     "name": "PanText",
+    "hostname": "pantext.app",
     "registered": false,
     "standalone": true,
     "macAppStoreId": "1551183766",

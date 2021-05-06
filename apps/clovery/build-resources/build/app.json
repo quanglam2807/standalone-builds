@@ -1,6 +1,7 @@
 {
     "id": "clovery",
     "name": "Clovery",
+    "hostname": "clovery.app",
     "macAppStoreId": "1552618413",
     "registered": false,
     "standalone": true,
