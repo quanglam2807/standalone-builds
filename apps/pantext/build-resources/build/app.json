@@ -1,0 +1,9 @@
+{
+    "id": "pantext",
+    "name": "PanText",
+    "registered": false,
+    "macAppStoreId": "1551183766",
+    "opts": {
+        "legacyUserData": true
+    }
+}

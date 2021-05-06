@@ -1,0 +1,64 @@
+name: PanText (Windows)
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get Neutron version
+      run: echo NEUTRON_VERSION=$(cat neutron-version $1) >> $GITHUB_ENV
+    - uses: actions/checkout@v2
+      with:
+        repository: 'webcatalog/neutron'
+        ref: v${{ env.NEUTRON_VERSION }}
+        path: 'neutron'
+        fetch-depth: 1
+        submodules: false
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - name: Get tag name
+      run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
+      shell: bash
+      if: startsWith(github.ref, 'refs/tags/')
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
+      if: startsWith(github.ref, 'refs/tags/')
+    - name: Install AzureSignTool
+      run: dotnet tool install --global AzureSignTool
+      if: startsWith(github.ref, 'refs/tags/')
+    - name: Build PanText
+      run: |
+        cp apps/pantext/config.json neutron/
+        cp -r apps/pantext/build-resources neutron
+        cp build-standalone.js neutron
+        cd neutron
+        yarn --prefer-offline --network-timeout 600000
+        yarn lint
+        yarn build
+        node build-standalone.js
+      env:
+        CI: true
+        CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET_PANTEXT }}
+        REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
+        REACT_APP_AMPLITUDE_API_KEY: ${{ secrets.REACT_APP_AMPLITUDE_API_KEY }}
+        REACT_APP_SWIFTYPE_HOST_ID: ${{ secrets.REACT_APP_SWIFTYPE_HOST_ID }}
+        REACT_APP_SWIFTYPE_SEARCH_KEY: ${{ secrets.REACT_APP_SWIFTYPE_SEARCH_KEY }}
+        REACT_APP_SWIFTYPE_ENGINE_NAME: ${{ secrets.REACT_APP_SWIFTYPE_ENGINE_NAME }}
+        ELECTRON_APP_SENTRY_DSN: ${{ secrets.ELECTRON_APP_SENTRY_DSN }}
+        AZURE_KEY_VAULT_CLIENT_ID: ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }}
+        AZURE_KEY_VAULT_CLIENT_SECRET: ${{ secrets.AZURE_KEY_VAULT_CLIENT_SECRET }}
+        AZURE_KEY_VAULT_URI: ${{ secrets.AZURE_KEY_VAULT_URI }}
+        AZURE_KEY_VAULT_CERT_NAME: ${{ secrets.AZURE_KEY_VAULT_CERT_NAME }}
+      if: startsWith(github.ref, 'refs/tags/')

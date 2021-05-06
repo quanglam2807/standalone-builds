@@ -1,0 +1,10 @@
+{
+  "internalId": "clovery",
+  "productName": "Clovery",
+  "productId": "com.webcatalog.clovery",
+  "allowCamera": true,
+  "allowMicrophone": true,
+  "setAsDefaultBrowser": true,
+  "setAsDefaultEmailClient": true,
+  "setAsDefaultCalendarApp": true
+}

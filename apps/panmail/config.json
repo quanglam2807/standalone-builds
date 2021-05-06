@@ -1,0 +1,10 @@
+{
+  "internalId": "panmail",
+  "productName": "PanMail",
+  "productId": "com.webcatalog.panmail",
+  "allowCamera": false,
+  "allowMicrophone": false,
+  "setAsDefaultBrowser": false,
+  "setAsDefaultEmailClient": true,
+  "setAsDefaultCalendarApp": false
+}

@@ -1,0 +1,10 @@
+{
+  "internalId": "pantext",
+  "productName": "PanText",
+  "productId": "com.webcatalog.pantext",
+  "allowCamera": true,
+  "allowMicrophone": true,
+  "setAsDefaultBrowser": true,
+  "setAsDefaultEmailClient": true,
+  "setAsDefaultCalendarApp": true
+}

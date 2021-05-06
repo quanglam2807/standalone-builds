@@ -1,0 +1,9 @@
+{
+    "id": "panmail",
+    "name": "PanMail",
+    "macAppStoreId": "1551178702",
+    "registered": false,
+    "opts": {
+        "legacyUserData": true
+    }
+}
