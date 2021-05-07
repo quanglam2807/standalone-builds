@@ -156,11 +156,13 @@ const opts = {
     publish: [
       {
         provider: 'generic',
+        channel: 'latest',
         url: `https://storage2.webcatalog.app/${configJson.internalId}`,
         useMultipleRangeRequest: true,
       },
       {
         provider: 's3',
+        channel: 'latest',
         bucket: 'storage2.webcatalog.app',
         region: 'us-east-2',
         path: `/${configJson.internalId}`,
