@@ -155,6 +155,11 @@ const opts = {
     protocols,
     publish: [
       {
+        provider: 'generic',
+        url: `https://storage2.webcatalog.app/${configJson.internalId}`,
+        useMultipleRangeRequest: true,
+      },
+      {
         provider: 's3',
         bucket: 'storage2.webcatalog.app',
         region: 'us-east-2',
