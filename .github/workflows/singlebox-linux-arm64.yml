@@ -1,4 +1,4 @@
-name: PanText (Linux arm64)
+name: Singlebox (Linux arm64)
 
 on:
   push:
@@ -31,10 +31,10 @@ jobs:
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       shell: bash
       if: startsWith(github.ref, 'refs/tags/')
-    - name: Build PanText
+    - name: Build Singlebox
       run: |
-        cp apps/pantext/config.json neutron/
-        cp -r apps/pantext/build-resources neutron
+        cp apps/singlebox/config.json neutron/
+        cp -r apps/singlebox/build-resources neutron
         cp build-standalone.js neutron
         cd neutron
         yarn --prefer-offline --network-timeout 600000
@@ -47,8 +47,8 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET_PANTEXT }}
-        REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
+        REACT_APP_LICENSE_SECRET: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX }}
+        REACT_APP_LICENSE_SECRET_LEGACY: ${{ secrets.REACT_APP_LICENSE_SECRET_SINGLEBOX_LEGACY }}
         REACT_APP_AMPLITUDE_API_KEY: ${{ secrets.REACT_APP_AMPLITUDE_API_KEY }}
         REACT_APP_SWIFTYPE_HOST_ID: ${{ secrets.REACT_APP_SWIFTYPE_HOST_ID }}
         REACT_APP_SWIFTYPE_SEARCH_KEY: ${{ secrets.REACT_APP_SWIFTYPE_SEARCH_KEY }}
