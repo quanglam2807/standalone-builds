@@ -1,7 +1,7 @@
 {
-  "internalId": "pantext",
-  "productName": "PanText",
-  "productId": "com.webcatalog.pantext",
+  "internalId": "singlebox",
+  "productName": "Singlebox",
+  "productId": "com.webcatalog.singlebox",
   "allowCamera": true,
   "allowMicrophone": true,
   "setAsDefaultBrowser": true,
