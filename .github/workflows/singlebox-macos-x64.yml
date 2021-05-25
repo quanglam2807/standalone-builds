@@ -27,6 +27,15 @@ jobs:
     - name: Get tag name
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/tags/')
+    - name: Set up Castlabs EVS
+      run: |
+        python3 -m pip install --upgrade castlabs-evs
+        python3 -m castlabs_evs.account reauth
+      env:
+        EVS_NO_ASK: 1
+        EVS_ACCOUNT_NAME: ${{ secrets.CASTLABS_EVS_ACCOUNT_NAME }}
+        EVS_PASSWD: ${{ secrets.CASTLABS_EVS_PASSWORD }}
+      if: startsWith(github.ref, 'refs/tags/')
     - name: Build Singlebox
       run: |
         cp apps/singlebox/config.json neutron/
