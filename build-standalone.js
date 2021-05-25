@@ -11,6 +11,37 @@ const { exec } = require('child_process');
 const packageJson = require('./package.json');
 const configJson = require('./config.json');
 
+const execAsync = (cmd, opts = {}) => new Promise((resolve, reject) => {
+  exec(cmd, opts, (e, stdout, stderr) => {
+    if (e instanceof Error) {
+      reject(e);
+      return;
+    }
+
+    if (stderr) {
+      reject(new Error(stderr));
+      return;
+    }
+
+    resolve(stdout);
+  });
+});
+
+const signEvsAsync = (appOutDir) => Promise.resolve()
+  .then(() => {
+    const cmd = `python3 -m castlabs_evs.vmp sign-pkg "${appOutDir}"`;
+    console.log('Running:', cmd);
+    return execAsync(cmd)
+      .then((result) => console.log(result));
+  })
+  .then(() => {
+    // verify
+    const cmd = `python3 -m castlabs_evs.vmp verify-pkg "${appOutDir}"`;
+    console.log('Running:', cmd);
+    return execAsync(cmd)
+      .then((result) => console.log(result));
+  });
+
 // sometimes, notarization works but *.app does not have a ticket stapled to it
 // this ensure the *.app has the notarization ticket
 const verifyNotarizationAsync = (filePath) => new Promise((resolve, reject) => {
@@ -87,7 +118,7 @@ if ((['x64', 'arm64'].indexOf(arch) < 0)) {
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.universal);
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch[arch]);
     break;
   }
   case 'win32': {
@@ -175,32 +206,61 @@ const opts = {
       // https://www.electron.build/configuration/win.html#how-do-delegate-code-signing
       sign: (configuration) => hsmCodeSignAsync(configuration.path),
     },
-    afterSign: (context) => {
-      // Only notarize app when forced in pull requests or when releasing using tag
-      const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
-      if (!shouldNotarize) return null;
-
-      console.log('Notarizing app...');
-      // https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
-      const { appOutDir } = context;
-
-      const appName = context.packager.appInfo.productFilename;
-      const appPath = `${appOutDir}/${appName}.app`;
-
-      return notarize({
-        appBundleId: configJson.productId,
-        appPath,
-        appleId: process.env.APPLE_ID,
-        appleIdPassword: process.env.APPLE_ID_PASSWORD,
-      })
-        .then(() => verifyNotarizationAsync(appPath))
-        .then((notarizedInfo) => {
-          // eslint-disable-next-line no-console
-          console.log(notarizedInfo);
-        });
+    afterPack: (context) => {
+      // sign with Castlabs EVS
+      // https://github.com/castlabs/electron-releases/wiki/EVS
+      // for macOS, run this before signing
+      if (process.platform === 'linux' || process.platform === 'win32') return null;
+      return signEvsAsync(context.appOutDir);
     },
+    afterSign: (context) => Promise.resolve()
+      .then(() => {
+        // sign with Castlabs EVS
+        // https://github.com/castlabs/electron-releases/wiki/EVS
+        // for Windows, run this after signing
+        if (process.platform === 'linux' || process.platform === 'darwin') return null;
+        return signEvsAsync(context.appOutDir);
+      })
+      .then(() => {
+        // Only notarize app when forced in pull requests or when releasing using tag
+        const shouldNotarize = process.platform === 'darwin' && context.electronPlatformName === 'darwin' && process.env.CI_BUILD_TAG;
+        if (!shouldNotarize) return null;
+
+        console.log('Notarizing app...');
+        // https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
+        const { appOutDir } = context;
+
+        const appName = context.packager.appInfo.productFilename;
+        const appPath = `${appOutDir}/${appName}.app`;
+
+        return notarize({
+          appBundleId: configJson.productId,
+          appPath,
+          appleId: process.env.APPLE_ID,
+          appleIdPassword: process.env.APPLE_ID_PASSWORD,
+        })
+          .then(() => verifyNotarizationAsync(appPath))
+          .then((notarizedInfo) => {
+            // eslint-disable-next-line no-console
+            console.log(notarizedInfo);
+          });
+      }),
   },
 };
+
+// Linux arm64 is not supported by Widevine DRM
+if (process.platform === 'linux' && arch === 'arm64') {
+  console.log('Packaging using Electron@electron/electron');
+} else {
+  console.log('Packaging using Electron@castlabs/electron-releases');
+  // use https://github.com/castlabs/electron-releases/releases
+  // to support widevinedrm
+  // https://github.com/castlabs/electron-releases/issues/70#issuecomment-731360649
+  opts.config.electronDownload = {
+    version: `${packageJson.devDependencies.electron}-wvvmp`,
+    mirror: 'https://github.com/castlabs/electron-releases/releases/download/v',
+  };
+}
 
 if (configJson.allowCamera) {
   opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`;
