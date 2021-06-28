@@ -1,4 +1,4 @@
-name: Clovery (macOS x64)
+name: Clovery (macOS)
 
 on:
   push:

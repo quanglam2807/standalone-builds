@@ -111,18 +111,14 @@ const appVersion = packageJson.version;
 
 const arch = process.env.TEMPLATE_ARCH || 'x64';
 
-if ((['x64', 'arm64'].indexOf(arch) < 0)) {
-  console.log(`${process.platform} ${arch} is not supported.`);
-}
-
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch[arch]);
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.x64, Arch.arm64);
     break;
   }
   case 'win32': {
-    targets = Platform.WINDOWS.createTarget(['nsis'], Arch[arch]);
+    targets = Platform.WINDOWS.createTarget(['nsis'], Arch.x64);
     break;
   }
   case 'linux': {

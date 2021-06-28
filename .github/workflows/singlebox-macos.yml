@@ -1,4 +1,4 @@
-name: Singlebox (macOS arm64)
+name: Singlebox (macOS)
 
 on:
   push:
@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-
-    env:
-      TEMPLATE_ARCH: arm64
 
     steps:
     - uses: actions/checkout@v2
