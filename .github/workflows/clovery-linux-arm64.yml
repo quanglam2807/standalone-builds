@@ -9,6 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TEMPLATE_ARCH: arm64
+
     steps:
     - uses: actions/checkout@v2
     - name: Get Neutron version
