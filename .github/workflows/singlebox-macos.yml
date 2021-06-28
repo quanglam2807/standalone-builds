@@ -1,4 +1,4 @@
-name: Singlebox (macOS x64)
+name: Singlebox (macOS)
 
 on:
   push:
