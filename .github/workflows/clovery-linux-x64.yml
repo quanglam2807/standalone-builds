@@ -11,6 +11,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install Snapcraft
+      uses: samuelmeuli/action-snapcraft@v1
+      with:
+        snapcraft_token: ${{ secrets.SNAP_TOKEN }}
     - name: Get Neutron version
       run: echo NEUTRON_VERSION=$(cat neutron-version $1) >> $GITHUB_ENV
     - uses: actions/checkout@v2
