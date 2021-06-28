@@ -126,7 +126,9 @@ switch (process.platform) {
     break;
   }
   case 'linux': {
-    targets = Platform.LINUX.createTarget(['AppImage', 'tar.gz'], Arch[arch]);
+    const targetNames = ['AppImage', 'tar.gz'];
+    if (arch !== 'arm64') targetNames.push('snap');
+    targets = Platform.LINUX.createTarget(targetNames, Arch[arch]);
     break;
   }
   default: {
