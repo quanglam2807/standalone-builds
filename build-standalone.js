@@ -216,7 +216,7 @@ const opts = {
         // sign with Castlabs EVS
         // https://github.com/castlabs/electron-releases/wiki/EVS
         // for Windows, run this after signing
-        if (process.platform === 'linux' || process.platform === 'darwin') return null;
+        if (process.platform === 'linux' || process.platform === 'darwin' || process.arch === 'arm64') return null;
         return signEvsAsync(context.appOutDir);
       })
       .then(() => {
