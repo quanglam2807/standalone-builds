@@ -208,7 +208,7 @@ const opts = {
       // sign with Castlabs EVS
       // https://github.com/castlabs/electron-releases/wiki/EVS
       // for macOS, run this before signing
-      if (process.platform === 'linux' || process.platform === 'win32') return null;
+      if (context.electronPlatformName === 'linux' || context.electronPlatformName === 'win32') return null;
       return signEvsAsync(context.appOutDir);
     },
     afterSign: (context) => Promise.resolve()
@@ -216,7 +216,7 @@ const opts = {
         // sign with Castlabs EVS
         // https://github.com/castlabs/electron-releases/wiki/EVS
         // for Windows, run this after signing
-        if (process.platform === 'linux' || process.platform === 'darwin' || process.arch === 'arm64') return null;
+        if (context.electronPlatformName === 'linux' || context.electronPlatformName === 'darwin' || context.arch === 'arm64') return null;
         return signEvsAsync(context.appOutDir);
       })
       .then(() => {
