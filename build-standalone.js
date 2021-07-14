@@ -208,16 +208,20 @@ const opts = {
       // sign with Castlabs EVS
       // https://github.com/castlabs/electron-releases/wiki/EVS
       // for macOS, run this before signing
-      if (context.electronPlatformName === 'linux' || context.electronPlatformName === 'win32') return null;
-      return signEvsAsync(context.appOutDir);
+      if (context.electronPlatformName === 'darwin') {
+        return signEvsAsync(context.appOutDir);
+      }
+      return null;
     },
     afterSign: (context) => Promise.resolve()
       .then(() => {
         // sign with Castlabs EVS
         // https://github.com/castlabs/electron-releases/wiki/EVS
-        // for Windows, run this after signing
-        if (context.electronPlatformName === 'linux' || context.electronPlatformName === 'darwin' || context.arch === 'arm64') return null;
-        return signEvsAsync(context.appOutDir);
+        // for Windows (x64 only), run this after signing
+        if (context.electronPlatformName === 'win32' && context.arch !== 'arm64') {
+          return signEvsAsync(context.appOutDir);
+        }
+        return null;
       })
       .then(() => {
         // Only notarize app when forced in pull requests or when releasing using tag
