@@ -208,6 +208,7 @@ const opts = {
       // sign with Castlabs EVS
       // https://github.com/castlabs/electron-releases/wiki/EVS
       // for macOS, run this before signing
+      // eslint-disable-next-line react/destructuring-assignment
       if (context.electronPlatformName === 'darwin') {
         return signEvsAsync(context.appOutDir);
       }
@@ -218,7 +219,7 @@ const opts = {
         // sign with Castlabs EVS
         // https://github.com/castlabs/electron-releases/wiki/EVS
         // for Windows (x64 only), run this after signing
-        if (context.electronPlatformName === 'win32' && context.arch !== 'arm64') {
+        if (context.electronPlatformName === 'win32' && context.arch !== Arch.arm64) {
           return signEvsAsync(context.appOutDir);
         }
         return null;
