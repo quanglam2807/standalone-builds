@@ -1,6 +1,7 @@
 {
   "internalId": "singlebox",
   "productName": "Singlebox",
+  "productDescription": "All-in-One Messenger",
   "productId": "com.webcatalog.pantext",
   "allowCamera": true,
   "allowMicrophone": true,
