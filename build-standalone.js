@@ -136,6 +136,7 @@ switch (process.platform) {
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
 packageJsonContent.name = configJson.productName;
+packageJsonContent.description = configJson.productDescription;
 fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 
 const protocols = [];
