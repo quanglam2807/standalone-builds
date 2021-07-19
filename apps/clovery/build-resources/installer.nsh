@@ -16,6 +16,7 @@
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Clovery\Capabilities\URLAssociations' 'http' 'Clovery'
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Clovery\Capabilities\URLAssociations' 'https' 'Clovery'
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Clovery\Capabilities\URLAssociations' 'mailto' 'Clovery'
+  WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Clovery\Capabilities\URLAssociations' 'webcal' 'Clovery'
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Clovery\DefaultIcon' '' '$appExe,0'
   WriteRegDWORD HKCU 'Software\Clients\StartMenuInternet\Clovery\InstallInfo' 'IconsVisible' 1
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Clovery\shell\open\command' '' '$appExe'
