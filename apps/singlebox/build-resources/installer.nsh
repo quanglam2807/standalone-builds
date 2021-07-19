@@ -16,6 +16,7 @@
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Singlebox\Capabilities\URLAssociations' 'http' 'Singlebox'
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Singlebox\Capabilities\URLAssociations' 'https' 'Singlebox'
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Singlebox\Capabilities\URLAssociations' 'mailto' 'Singlebox'
+  WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Singlebox\Capabilities\URLAssociations' 'webcal' 'Singlebox'
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Singlebox\DefaultIcon' '' '$appExe,0'
   WriteRegDWORD HKCU 'Software\Clients\StartMenuInternet\Singlebox\InstallInfo' 'IconsVisible' 1
   WriteRegStr HKCU 'Software\Clients\StartMenuInternet\Singlebox\shell\open\command' '' '$appExe'
