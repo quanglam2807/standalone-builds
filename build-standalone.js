@@ -187,13 +187,13 @@ const opts = {
       {
         provider: 'generic',
         channel: 'latest',
-        url: `https://storage2.webcatalog.app/${configJson.internalId}`,
+        url: `https://cdn-2.webcatalog.io/${configJson.internalId}`,
         useMultipleRangeRequest: true,
       },
       {
         provider: 's3',
         channel: 'latest',
-        bucket: 'storage2.webcatalog.app',
+        bucket: 'cdn-2.webcatalog.io',
         region: 'us-east-2',
         path: `/${configJson.internalId}`,
       },
