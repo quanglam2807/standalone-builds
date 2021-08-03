@@ -3,8 +3,6 @@
   "productName": "Singlebox",
   "productDescription": "All-in-One Messenger",
   "productId": "com.webcatalog.pantext",
-  "allowCamera": true,
-  "allowMicrophone": true,
   "setAsDefaultBrowser": true,
   "setAsDefaultEmailClient": true,
   "setAsDefaultCalendarApp": true

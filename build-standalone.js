@@ -199,7 +199,11 @@ const opts = {
       },
     ],
     mac: {
-      extendInfo: {},
+      // https://github.com/electron/electron/issues/19307#issuecomment-524314643
+      extendInfo: {
+        NSCameraUsageDescription: `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`,
+        NSMicrophoneUsageDescription: `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`,
+      },
     },
     win: {
       // https://www.electron.build/configuration/win.html#how-do-delegate-code-signing
@@ -264,14 +268,6 @@ if (process.platform === 'linux' && arch === 'arm64') {
     version: `${packageJson.devDependencies.electron}-wvvmp`,
     mirror: 'https://github.com/castlabs/electron-releases/releases/download/v',
   };
-}
-
-if (configJson.allowCamera) {
-  opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`;
-}
-
-if (configJson.allowMicrophone) {
-  opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`;
 }
 
 Promise.resolve()
