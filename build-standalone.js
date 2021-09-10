@@ -114,7 +114,11 @@ const arch = process.env.TEMPLATE_ARCH || 'x64';
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.x64, Arch.arm64);
+    // use Arch.universal because
+    // electron-updater 4.3.10 -> 4.5.1 has a bug preventing
+    // Intel-based Macs from updating if there exists Arch.arm64 builds
+    // https://github.com/electron-userland/electron-builder/pull/6212
+    targets = Platform.MAC.createTarget(['zip', 'dmg'], Arch.universal);
     break;
   }
   case 'win32': {
@@ -163,6 +167,9 @@ if (configJson.setAsDefaultCalendarApp) {
   });
 }
 
+// Linux arm64 is not supported by Widevine DRM
+const widevineSupported = !(process.platform === 'linux' && arch === 'arm64');
+
 const opts = {
   targets,
   config: {
@@ -210,6 +217,15 @@ const opts = {
       sign: (configuration) => hsmCodeSignAsync(configuration.path),
     },
     afterPack: (context) => {
+      // pre-generated .sig files that exist in the app bundle prevents @electron/universal from working correctly with castlab-electron
+      // so we remove it, EVS will re-generate the file
+      // https://github.com/castlabs/electron-releases/issues/105#issuecomment-905087389
+      if (widevineSupported) {
+        const { appOutDir } = context;
+        const appName = context.packager.appInfo.productFilename;
+        fs.unlinkSync(`${appOutDir}/${appName}.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/Electron Framework.sig`);
+      }
+
       // sign with Castlabs EVS
       // https://github.com/castlabs/electron-releases/wiki/EVS
       // for macOS, run this before signing
@@ -256,8 +272,7 @@ const opts = {
   },
 };
 
-// Linux arm64 is not supported by Widevine DRM
-if (process.platform === 'linux' && arch === 'arm64') {
+if (widevineSupported) {
   console.log('Packaging using Electron@electron/electron');
 } else {
   console.log('Packaging using Electron@castlabs/electron-releases');
