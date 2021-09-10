@@ -220,7 +220,7 @@ const opts = {
       // pre-generated .sig files that exist in the app bundle prevents @electron/universal from working correctly with castlab-electron
       // so we remove it, EVS will re-generate the file
       // https://github.com/castlabs/electron-releases/issues/105#issuecomment-905087389
-      if (widevineSupported) {
+      if (process.platform === 'darwin' && widevineSupported) {
         const { appOutDir } = context;
         const appName = context.packager.appInfo.productFilename;
         fs.unlinkSync(`${appOutDir}/${appName}.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/Electron Framework.sig`);
@@ -272,7 +272,7 @@ const opts = {
   },
 };
 
-if (widevineSupported) {
+if (!widevineSupported) {
   console.log('Packaging using Electron@electron/electron');
 } else {
   console.log('Packaging using Electron@castlabs/electron-releases');
