@@ -220,7 +220,7 @@ const opts = {
       // pre-generated .sig files that exist in the app bundle prevents @electron/universal from working correctly with castlab-electron
       // so we remove it, EVS will re-generate the file
       // https://github.com/castlabs/electron-releases/issues/105#issuecomment-905087389
-      if (process.platform === 'darwin' && widevineSupported) {
+      if (context.electronPlatformName === 'darwin' && widevineSupported && context.arch !== Arch.universal) {
         const { appOutDir } = context;
         const appName = context.packager.appInfo.productFilename;
         fs.unlinkSync(`${appOutDir}/${appName}.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/Electron Framework.sig`);
@@ -230,7 +230,7 @@ const opts = {
       // https://github.com/castlabs/electron-releases/wiki/EVS
       // for macOS, run this before signing
       // eslint-disable-next-line react/destructuring-assignment
-      if (context.electronPlatformName === 'darwin') {
+      if (context.electronPlatformName === 'darwin' && context.arch === Arch.universal) {
         return signEvsAsync(context.appOutDir);
       }
       return null;
