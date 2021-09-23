@@ -32,7 +32,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.1.x
+        dotnet-version: 3.1.x
       if: startsWith(github.ref, 'refs/tags/')
     - name: Install AzureSignTool
       run: dotnet tool install --global AzureSignTool
