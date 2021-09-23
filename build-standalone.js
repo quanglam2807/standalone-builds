@@ -173,6 +173,9 @@ const widevineSupported = !(process.platform === 'linux' && arch === 'arm64');
 const opts = {
   targets,
   config: {
+    // build from source to build keytar as universal binary
+    // https://github.com/webcatalog/neutron/pull/620
+    buildDependenciesFromSource: process.platform === 'darwin',
     asarUnpack: [
       'node_modules/node-mac-permissions/build',
       'node_modules/keytar/build',
