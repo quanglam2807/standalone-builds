@@ -3,6 +3,7 @@
     "name": "Clovery",
     "hostname": "clovery.app",
     "macAppStoreId": "1552618413",
+    "changelogUrl": "https://webcatalog.io/clovery/changelog/",
     "registered": false,
     "standalone": true,
     "opts": {
