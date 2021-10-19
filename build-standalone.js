@@ -230,6 +230,15 @@ const opts = {
         fs.unlinkSync(`${appOutDir}/${appName}.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/Electron Framework.sig`);
       }
 
+      if (context.electronPlatformName === 'darwin' && context.arch === Arch.arm64) {
+        // fix https://github.com/castlabs/electron-releases/issues/111
+        const { appOutDir } = context;
+        const appName = context.packager.appInfo.productFilename;
+        const arm64MainMenuLibPath = `${appOutDir}/${appName}.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/MainMenu.nib`;
+        const x64MainMenuLibPath = arm64MainMenuLibPath.replace('mac-universal--arm64', 'mac-universal--x64');
+        fs.copySync(x64MainMenuLibPath, arm64MainMenuLibPath);
+      }
+
       // sign with Castlabs EVS
       // https://github.com/castlabs/electron-releases/wiki/EVS
       // for macOS, run this before signing
