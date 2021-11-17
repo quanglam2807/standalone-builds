@@ -293,7 +293,7 @@ if (!widevineSupported) {
   // to support widevinedrm
   // https://github.com/castlabs/electron-releases/issues/70#issuecomment-731360649
   opts.config.electronDownload = {
-    version: `${packageJson.devDependencies.electron}-wvvmp`,
+    version: `${packageJson.devDependencies.electron}+wvcus`,
     mirror: 'https://github.com/castlabs/electron-releases/releases/download/v',
   };
 }
