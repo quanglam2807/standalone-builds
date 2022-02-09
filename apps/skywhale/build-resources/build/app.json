@@ -1,0 +1,13 @@
+{
+    "id": "skywhale",
+    "name": "Skywhale",
+    "hostname": "skywhale.app",
+    "macAppStoreId": "1609165212",
+    "changelogUrl": "https://webcatalog.io/skywhale/changelog/",
+    "registered": false,
+    "standalone": true,
+    "menubarBrowser": true,
+    "opts": {
+        "legacyUserData": true
+    }
+}
