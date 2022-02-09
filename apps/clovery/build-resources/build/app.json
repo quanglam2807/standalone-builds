@@ -1,9 +1,10 @@
 {
     "id": "clovery",
     "name": "Clovery",
-    "hostname": "clovery.app",
+    "hostname": "webcatalog.io/clovery",
     "macAppStoreId": "1552618413",
     "changelogUrl": "https://webcatalog.io/clovery/changelog/",
+    "price": "25 USD",
     "registered": false,
     "standalone": true,
     "opts": {

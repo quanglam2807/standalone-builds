@@ -1,9 +1,10 @@
 {
     "id": "singlebox",
     "name": "Singlebox",
-    "hostname": "singlebox.app",
+    "hostname": "webcatalog.io/singlebox",
     "macAppStoreId": "1551183766",
     "changelogUrl": "https://webcatalog.io/singlebox/changelog/",
+    "price": "25 USD",
     "registered": false,
     "standalone": true,
     "opts": {
