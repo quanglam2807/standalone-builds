@@ -27,7 +27,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 16.x
     - name: Get tag name
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       shell: bash
